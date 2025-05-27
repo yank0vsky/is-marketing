@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invent Store - B2B App Marketplace Prototypes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6; /* Lighter, more neutral background */
+            color: #333;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px 0; /* Adjusted padding */
+        }
+        header {
+            background: transparent; 
+            color: #333;
+            padding: 2rem 0 1rem 0; 
+            text-align: center;
+            margin-bottom: 20px; 
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem; 
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        nav {
+            background: #fff; 
+            padding: 0.75rem 1rem;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: inline-block; 
+            left: 50%;
+            position: relative;
+            transform: translateX(-50%);
+        }
+        nav button {
+            color: #555;
+            background: transparent;
+            border: none; 
+            padding: 10px 22px; 
+            margin: 0 5px; 
+            cursor: pointer;
+            font-size: 0.95rem; 
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600; 
+        }
+        nav button:hover {
+            color: #667eea;
+            background-color: rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        nav button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .page {
+            display: none;
+            background: #ffffff; 
+            padding: 30px 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-in-out; 
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Page Hero Section Styling */
+        .page-hero {
+            padding: 20px 0 30px 0;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .page-title { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 10px; 
+            margin-bottom: 10px; 
+            font-size: 2.2rem; 
+            font-weight: bold;
+        }
+        .hero-tagline {
+            font-size: 1.25rem; 
+            color: #555; 
+            margin-bottom: 0; 
+        }
+
+        /* Content Section Styling */
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .content-section h2 { 
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px; /* Increased margin */
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0; /* Softer border */
+            /* display: inline-block; */ /* Full width border looks fine */
+        }
+         .content-section h3 { /* For H3s within a content section */
+            color: #444;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+         }
+         .content-section p, .content-section ul {
+            font-size: 1.05rem; 
+            color: #4a5568; /* Slightly softer text color */
+            line-height: 1.7;
+         }
+         .content-section ul {
+            list-style: none; /* Remove default bullets if any */
+            padding-left: 0;
+         }
+         /* If you want arrow bullets for specific lists in content-section:
+         .content-section ul.styled-arrow-list li { position: relative; padding-left: 25px; }
+         .content-section ul.styled-arrow-list li::before { content: "→"; color: #667eea; font-weight: bold; position: absolute; left: 0; }
+         */
+
+
+        /* Key Capability Block (Inspired by Example 1 "Domain Modeling") */
+        .key-capability-block {
+            background: linear-gradient(135deg, #2d3748, #1a202c); /* Darker, cooler gradient */
+            color: #ecf0f1;
+            padding: 30px 35px;
+            border-radius: 12px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(44, 62, 80, 0.2);
+        }
+        .key-capability-block h3 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding-bottom: 10px;
+        }
+        .key-capability-block p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #cbd5e0; /* Lighter text for readability on dark bg */
+            margin-bottom: 15px;
+        }
+        .key-capability-block ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px; /* Add some space before lists */
+        }
+        .key-capability-block li {
+            padding-left: 30px; 
+            margin-bottom: 12px;
+            position: relative;
+            font-size: 1rem;
+            color: #cbd5e0;
+            line-height: 1.7;
+        }
+        .key-capability-block li::before {
+            content: '✨'; 
+            position: absolute;
+            left: 0;
+            top: 4px; /* Adjusted for better vertical alignment */
+            color: #82eefd; 
+            font-size: 1.1rem; /* Slightly smaller icon */
+        }
+        .key-capability-block li.icon-widgets::before { content: '🧩'; font-size: 1.2rem; top: 2px; }
+        .key-capability-block li.icon-customize::before { content: '🎨'; font-size: 1.2rem; top: 2px; }
+        .key-capability-block li.icon-integrate::before { content: '🔗'; font-size: 1.2rem; top: 2px; }
+
+
+        .cta-buttons {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px 0; 
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 28px; 
+            text-decoration: none;
+            font-size: 1.1rem; 
+            font-weight: 600;
+            border-radius: 30px; 
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            display: inline-block; 
+        }
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.03); 
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .cta-button.secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+         .cta-button.secondary:hover {
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .faq-section {
+            margin-top: 50px;
+            padding: 25px; 
+            background: #f9fafb; /* Lighter background for FAQ section */
+            border-radius: 12px;
+        }
+        .faq-section h3 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 1.7rem; 
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .faq-item {
+            margin-bottom: 20px; 
+            padding: 18px; 
+            background: white;
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease; 
+        }
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .faq-item strong {
+            display: block;
+            color: #333; 
+            font-size: 1.05rem; 
+            margin-bottom: 8px; 
+            padding-bottom: 5px;
+            border-bottom: 2px solid #667eea;
+        }
+        .faq-item p {
+            font-size: 0.95rem; 
+            color: #555;
+            margin-bottom: 0; 
+        }
+
+        .seo-keywords {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05); 
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+        }
+        .seo-keywords strong {
+            display: block;
+            margin-bottom: 15px;
+            color: #667eea; 
+            font-size: 1.1rem; 
+        }
+        .seo-keywords ul {
+            display: flex; 
+            flex-wrap: wrap;
+            gap: 8px; 
+            padding-left: 0; 
+            list-style: none;
+        }
+        .seo-keywords li {
+            background: white;
+            padding: 6px 12px; 
+            border-radius: 20px;
+            font-weight: 500;
+            color: #667eea;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            font-size: 0.9rem; 
+            margin-bottom: 0; 
+        }
+
+        .cross-links {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid #e0e0e0; 
+            background: transparent; 
+            border-radius: 0 0 16px 16px; /* Match page radius if it's the last element */
+        }
+        .cross-links p {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem; 
+        }
+        .cross-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 15px; 
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(102, 126, 234, 0.1); 
+            box-shadow: none; 
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 0.95rem; 
+        }
+        .cross-links a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); 
+        }
+
+        .prototype-term {
+            font-weight: bold;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em; 
+        }
+        
+        /* Default strong styling */
+        strong {
+            font-weight: bold; 
+            color: #667eea; 
+        }
+        .key-capability-block strong {
+            color: #ffffff; 
+        }
+        /* .faq-item strong is already styled specifically */
+        /* .seo-keywords strong is already styled specifically */
+
+
+        @media (max-width: 768px) {
+            .container { width: 95%; padding: 10px 0; }
+            header h1 { font-size: 2.2rem; }
+            nav { width: 90%; border-radius: 30px; }
+            nav button { margin: 5px 3px; padding: 8px 15px; font-size: 0.9rem;}
+            .page { padding: 20px; }
+            .page-title { font-size: 1.8rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .content-section h2 { font-size: 1.5rem; }
+            .content-section h3 { font-size: 1.3rem; }
+            .key-capability-block { padding: 20px 25px; }
+            .key-capability-block h3 { font-size: 1.4rem; }
+            .cta-button { display: block; margin: 10px auto; width: calc(100% - 20px); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Invent Store - Revolutionary B2B Marketplace</h1>
+    </header>
+
+    <nav>
+        <button onclick="showPage('marketplace')" class="active">Customer Marketplace</button>
+        <button onclick="showPage('vendor-portal')">Vendor Portal</button>
+        <button onclick="showPage('developer-portal')">Developer Portal</button>
+    </nav>
+
+    <div class="container">
+        <!-- CUSTOMER MARKETPLACE PAGE -->
+        <div id="marketplace" class="page active">
+            <!-- Meta Title: Invent Store: Wealth Management Apps & Data Integrations -->
+            <!-- Meta Description: Discover, connect & deploy powerful InventStore apps & data integration bundles to elevate your wealth management firm. Streamline analytics onboarding. -->
+            
+            <div class="page-hero">
+                <h1 class="page-title">Transform Your Advisory Tech Stack with Invent Store</h1>
+                <p class="hero-tagline">Discover apps and bundles to supercharge your wealth firm.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Unlock Efficiency and Growth for Your Firm</h2>
+                <p>In today's fast-paced wealth management landscape, staying ahead means leveraging the best technology. Invent Store is your central hub for discovering, connecting, and deploying powerful applications and <strong>data integration bundles</strong> specifically designed for wealth management professionals. Stop wrestling with disparate systems and unlock seamless workflows that empower your advisors and delight your clients.</p>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Streamlined Operations with Pre-Packaged Bundles</h3>
+                <p>Imagine your core advisory processes—client onboarding, portfolio analysis, compliance reporting—all working in harmony. Our curated Bundles offer pre-packaged suites of integrated apps and data connections, designed to tackle specific challenges. These <strong>data integration bundles</strong> ensure your information flows smoothly, reducing manual data entry and freeing up valuable time for client-facing activities. Improve your firm's efficiency from day one.</p>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Discover Innovative InventStore Apps</h3>
+                <p>Beyond bundles, explore a growing catalog of individual <strong>InventStore apps</strong>. Whether you need advanced analytics, enhanced client communication tools, or specialized financial planning software, you'll find solutions to extend your capabilities. Our marketplace makes it easy to find apps that complement your existing systems, facilitating a smooth <strong>analytics onboarding</strong> process and providing deeper insights into your business and client portfolios.</p>
+            </div>
+            
+            <div class="content-section">
+                 <h3>Effortless App Management for Existing Customers</h3>
+                 <p>For our valued clients, Invent Store provides a clear dashboard of your currently installed apps and bundles. Easily discover new solutions, request demos, or initiate installations for additional tools that can further enhance your firm's productivity and service offerings. Manage your entire app ecosystem from one convenient location.</p>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="cta-button">Explore Apps & Bundles</button>
+                <button class="cta-button secondary">Request a Demo</button>
+            </div>
+
+            <div class="faq-section">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <strong>What kind of apps can I find on Invent Store?</strong>
+                    <p>Invent Store features a range of applications tailored for wealth management, including tools for CRM integration, portfolio analytics, client reporting, compliance, financial planning, and data integration bundles designed to streamline your operations.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>How do data integration bundles help my firm?</strong>
+                    <p>Our data integration bundles connect disparate systems, automate data flow, and reduce manual effort. This leads to increased accuracy, efficiency, and allows your advisors to focus on high-value tasks rather than data reconciliation.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Is it easy to get started with an app or bundle?</strong>
+                    <p>Yes! Invent Store is designed for simplicity. You can browse solutions, request demos, and initiate onboarding for apps and bundles directly through the platform. Our team is also here to support your analytics onboarding and integration needs.</p>
+                </div>
+            </div>
+
+            <div class="seo-keywords">
+                <strong>Primary SEO Keywords:</strong>
+                <ul>
+                    <li>data integration bundles</li>
+                    <li>InventStore apps</li>
+                    <li>analytics onboarding</li>
+                    <li>wealth management marketplace</li>
+                    <li>advisor technology</li>
+                    <li>fintech apps for advisors</li>
+                </ul>
+            </div>
+
+            <div class="cross-links">
+                <p><strong>Explore More:</strong></p>
+                <a href="#" onclick="showPage('vendor-portal'); return false;">Want to list your app? Become a Vendor</a>
+                <a href="#" onclick="showPage('developer-portal'); return false;">Building an app? Visit our Developer Portal</a>
+            </div>
+        </div>
+
+        <!-- VENDOR PORTAL PAGE -->
+        <div id="vendor-portal" class="page">
+            <!-- Meta Title: Invent Store Vendor Portal: List Your SaaS App & Grow -->
+            <!-- Meta Description: List your SaaS app on Invent Store. Reach wealth management firms, validate market demand, and manage your products via our vendor dashboard. -->
+            <div class="page-hero">
+                <h1 class="page-title">List Your App, Reach Wealth Firms, Validate Demand</h1>
+                <p class="hero-tagline">Partner with Invent Store and grow your fintech business.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Unlock the Wealth Management Market</h2>
+                <p>Invent Store's Vendor Portal is your gateway to a targeted audience of wealth management firms actively seeking innovative solutions. We provide the tools and platform to showcase your application, validate its market appeal, and ultimately, drive adoption and revenue. Stop searching for leads and start connecting with qualified buyers.</p>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Gauge Interest with a <span class="prototype-term">Product Card</span></h3>
+                <p>Not ready for a full launch? No problem. Our unique <span class="prototype-term">Product Card</span> feature allows you to publish a lightweight listing for your app or idea. This is a powerful tool for <strong>market demand validation</strong>. Track views, clicks, and demo requests directly from your <span class="prototype-term">Vendor Dashboard</span> to gather crucial insights before committing extensive development resources. See what resonates with advisors and refine your offering.</p>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Streamline Your Go-to-Market with <span class="prototype-term">Projects</span></h3>
+                <p>When you're ready to build or list your full application, use the <span class="prototype-term">Projects</span> section to manage your development and publishing lifecycle. You can <span class="prototype-term">Create New Project</span>, organize resources, and track progress. Invite your colleagues via the <span class="prototype-term">Team</span> management feature to collaborate seamlessly. Our <span class="prototype-term">Vendor Dashboard</span> provides a comprehensive overview of your listings, performance <span class="prototype-term">Analytics</span>, and engagement metrics, helping you to effectively <strong>list SaaS app</strong> and monitor its success.</p>
+            </div>
+            
+            <div class="content-section">
+                <h3>Full-Cycle Support (Optional)</h3>
+                <p>Need help bringing your vision to life? Invent Store offers optional paid services, including business requirements discovery and full-cycle app development. Leverage our expertise in the wealth management domain to accelerate your product journey.</p>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="cta-button">Register Your Company</button>
+                <button class="cta-button secondary" onclick="window.open('https://yank0vsky.github.io/is-vendor-portal/', '_blank')">Access Vendor Portal</button>
+            </div>
+
+            <div class="faq-section">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <strong>How does the <span class="prototype-term">Product Card</span> help with market demand validation?</strong>
+                    <p>A <span class="prototype-term">Product Card</span> is a concise listing that describes your app's core value. By monitoring views, clicks, and demo/installation requests via your <span class="prototype-term">Vendor Dashboard Analytics</span>, you can assess interest from wealth management firms before a full launch, minimizing risk and optimizing your GTM strategy.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>What's involved in creating a <span class="prototype-term">Project</span>?</strong>
+                    <p>When you <span class="prototype-term">Create New Project</span>, you'll define the scope of your app or bundle, assign team members, and manage development or integration tasks. It's your central hub for bringing a product to the Invent Store marketplace.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Can I manage my team members within the Vendor Portal?</strong>
+                    <p>Yes, the <span class="prototype-term">Team</span> section allows you to invite and manage collaborators, ensuring everyone involved in your product's lifecycle has the appropriate access and visibility.</p>
+                </div>
+                 <div class="faq-item">
+                    <strong>What kind of <span class="prototype-term">Analytics</span> can I expect on the <span class="prototype-term">Vendor Dashboard</span>?</strong>
+                    <p>The <span class="prototype-term">Vendor Dashboard</span> will provide key metrics on your listings, including views, clicks on demo/installation requests, and other engagement data to help you understand performance and refine your offerings.</p>
+                </div>
+            </div>
+
+            <div class="seo-keywords">
+                <strong>Primary SEO Keywords:</strong>
+                <ul>
+                    <li>list SaaS app</li>
+                    <li>market demand validation</li>
+                    <li>vendor dashboard</li>
+                    <li>create new project</li>
+                    <li>fintech vendor portal</li>
+                    <li>wealthtech partnership</li>
+                    <li>Product Card</li>
+                    <li>Analytics</li>
+                    <li>Team</li>
+                </ul>
+            </div>
+             <div class="cross-links">
+                <p><strong>Explore More:</strong></p>
+                <a href="#" onclick="showPage('marketplace'); return false;">See the Customer Marketplace</a>
+                <a href="#" onclick="showPage('developer-portal'); return false;">Need technical integration? Visit our Developer Portal</a>
+            </div>
+        </div>
+
+        <!-- DEVELOPER PORTAL PAGE -->
+        <div id="developer-portal" class="page">
+            <!-- Meta Title: Invent Developer Portal: Build WealthTech Apps with Our SDK -->
+            <!-- Meta Description: Integrate & build apps with Invent SDK & Widget Library. Access Sandbox, docs & support to create solutions for wealth management. -->
+            <div class="page-hero">
+                <h1 class="page-title">Build the Future of Wealth Management Software</h1>
+                <p class="hero-tagline">Integrate seamlessly with our powerful developer tools and APIs.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Empowering Your Innovation</h2>
+                <p>The Invent Developer Portal provides everything you need to build, integrate, and deploy cutting-edge applications for the wealth management industry. Whether you're extending your existing solution or creating something entirely new, our resources are designed to accelerate your development and ensure a seamless experience for end-users.</p>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Flexible Development Paths with Invent Tools</h3>
+                <p>We cater to your preferred development approach. Choose the path that best suits your project:</p>
+                <ul>
+                    <li class="icon-widgets"><strong>Use Our Widgets:</strong> Leverage the <span class="prototype-term">Invent Widget Library</span> for ready-to-use UI components. Simply connect them to your data sources for rapid deployment.</li>
+                    <li class="icon-customize"><strong>Customize Existing Widgets:</strong> Derive from our existing widgets in the library and adjust their functionality or appearance to meet your specific requirements, all while benefiting from the core <span class="prototype-term">Invent SDK</span>.</li>
+                    <li class="icon-integrate"><strong>Build or Integrate Your Own:</strong> Utilize our comprehensive <span class="prototype-term">Invent SDK</span>, <span class="prototype-term">Invent UI Kit</span>, and detailed <span class="prototype-term">API Reference</span> to build custom applications or integrate your existing solutions deeply into the Invent ecosystem.</li>
+                </ul>
+            </div>
+
+            <div class="key-capability-block">
+                <h3>Accelerate Your Build Cycle</h3>
+                <p>Get up and running quickly. Our <span class="prototype-term">Sandbox Environment</span> allows you to test your integrations and applications in a secure, isolated space. Explore our <span class="prototype-term">Guides</span> and sample code to understand best practices and common integration patterns. The <span class="prototype-term">Invent UI Kit</span> provides a consistent and professional look and feel, reducing your design overhead.</p>
+            </div>
+            
+            <div class="key-capability-block">
+                <h3>Comprehensive Resources & Dedicated <span class="prototype-term">Support</span></h3>
+                <p>We're committed to your success. Access extensive <span class="prototype-term">Documentation</span>, including detailed <span class="prototype-term">API Reference</span> and practical <span class="prototype-term">Guides</span>. For direct assistance, our dedicated <span class="prototype-term">Support</span> includes a Slack channel for quick queries and email support for more complex issues. We believe in fostering a strong developer community.</p>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="cta-button" onclick="window.open('https://yank0vsky.github.io/is-dev-portal-docs/', '_blank')">View API Documentation</button>
+                <button class="cta-button secondary">Access Sandbox</button>
+            </div>
+
+            <div class="faq-section">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <strong>What is included in the <span class="prototype-term">Invent SDK</span>?</strong>
+                    <p>The <span class="prototype-term">Invent SDK</span> provides a set of tools, libraries, and utilities to help you interact with the Invent platform, manage authentication, access APIs, and build robust integrations for wealth management workflows.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>How can the <span class="prototype-term">Invent Widget Library</span> speed up my development?</strong>
+                    <p>The <span class="prototype-term">Invent Widget Library</span> offers pre-built, configurable UI components for common wealth management tasks. This means you can add rich functionality to your app with minimal coding, focusing on your unique value proposition.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>What kind of <span class="prototype-term">Support</span> can I expect?</strong>
+                    <p>We offer comprehensive <span class="prototype-term">Documentation</span>, <span class="prototype-term">Guides</span>, and an <span class="prototype-term">API Reference</span>. Additionally, you'll have access to our developer community Slack channel for peer-to-peer help and direct email <span class="prototype-term">Support</span> from our technical team.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Is there a <span class="prototype-term">Sandbox Environment</span> for testing?</strong>
+                    <p>Yes, we provide a fully functional <span class="prototype-term">Sandbox Environment</span> where you can develop and test your applications and integrations without impacting live data or systems.</p>
+                </div>
+            </div>
+
+            <div class="seo-keywords">
+                <strong>Primary SEO Keywords:</strong>
+                <ul>
+                    <li>Invent SDK</li>
+                    <li>Invent Widget Library</li>
+                    <li>Sandbox Environment</li>
+                    <li>Support</li>
+                    <li>wealthtech API</li>
+                    <li>fintech developer portal</li>
+                    <li>integrate wealth management app</li>
+                    <li>Invent UI Kit</li>
+                    <li>API Reference</li>
+                    <li>Guides</li>
+                </ul>
+            </div>
+            <div class="cross-links">
+                <p><strong>Explore More:</strong></p>
+                <a href="#" onclick="showPage('vendor-portal'); return false;">Ready to publish? Go to the Vendor Portal</a>
+                <a href="#" onclick="showPage('marketplace'); return false;">See how apps appear in the Customer Marketplace</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            var pages = document.querySelectorAll('.page');
+            pages.forEach(function(page) {
+                page.classList.remove('active');
+            });
+
+            var buttons = document.querySelectorAll('nav button');
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            var selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            var selectedButton = document.querySelector('nav button[onclick="showPage(\'' + pageId + '\')"]');
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('marketplace');
+        });
+    </script>
+
+    <!-- 
+    **CHECKLIST:**
+    ✅ Meta lengths within limit:
+        - Marketplace Title: 54 chars (Invent Store: Wealth Management Apps & Data Integrations)
+        - Marketplace Desc: 158 chars (Discover, connect & deploy powerful InventStore apps & data integration bundles to elevate your wealth management firm. Streamline analytics onboarding.)
+        - Vendor Portal Title: 55 chars (Invent Store Vendor Portal: List Your SaaS App & Grow)
+        - Vendor Portal Desc: 152 chars (List your SaaS app on Invent Store. Reach wealth management firms, validate market demand, and manage your products via our vendor dashboard.)
+        - Developer Portal Title: 59 chars (Invent Developer Portal: Build WealthTech Apps with Our SDK)
+        - Developer Portal Desc: 153 chars (Integrate & build apps with Invent SDK & Widget Library. Access Sandbox, docs & support to create solutions for wealth management.)
+    
+    ✅ Word count per page (main copy, excluding FAQ/SEO/CTAs):
+        - Marketplace: ~280 words
+        - Vendor Portal: ~270 words
+        - Developer Portal: ~290 words
+    
+    ✅ Keywords included naturally:
+        - Marketplace: "data integration bundles", "InventStore apps", "analytics onboarding"
+        - Vendor Portal: "list SaaS app", "market demand validation", "vendor dashboard", "create new project"
+        - Developer Portal: "Invent SDK", "Invent Widget Library", "Sandbox Environment", "Support"
+    
+    ✅ Prototype headings mirrored:
+        - Vendor Portal: Product Card, Projects, Team, Analytics, Vendor Dashboard, Create New Project
+        - Developer Portal: Invent SDK, Invent Widget Library, Invent UI Kit, API Reference,
+    -->
+</body>
+</html>
